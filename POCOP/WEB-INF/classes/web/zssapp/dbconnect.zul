@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?taglib uri="http://www.zkoss.org/dsp/web/core" prefix="c"?>
+<zk xmlns:w="http://www.zkoss.org/2005/zk/client">
+<zscript language="Java">
+	import javax.servlet.http.HttpServletRequest;
+	import org.zkoss.zk.ui.Executions;
+	HttpServletRequest request = (HttpServletRequest) Executions.getCurrent().getNativeRequest();
+	String info = request.getParameter("filename");
+	System.out.println("dbconnect.zul file executed");
+	System.out.println("Info"+info);	
+	</zscript>
+
+
+		<vlayout hflex="1" vflex="1" spacing="0">
+                <spreadsheet id="ss" 
+				hflex="1" vflex="1" 
+				showToolbar="true" showFormulabar="true" showSheetbar="true" showContextMenu="true"
+				src="D:/Tomcat/webapps/POCOP/WEB-INF/books/${info}" maxrows="7000" maxcolumns="60"/>
+		</vlayout>
+</zk>
+
+
+

@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Implementation-Vendor: Potix Corporation
+Implementation-Title: org.zkoss.zssapp
+Implementation-Version: 2.2.0
+Specification-Vendor: Potix Corporation
+Specification-Title: ZK Spreadsheet Application
+Implementation-URL: http://www.zkoss.org/zss
+Specification-Version: 2.2.0
+

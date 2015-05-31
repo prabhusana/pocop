@@ -1,0 +1,83 @@
+<?page id="testZul" title=" New ZUL Title" cacheable="false" language="xul/html" zscriptLanguage="Java" contentType="text/html"?>
+<?init class="org.zkoss.zkplus.databind.AnnotateDataBinderInit"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+	xmlns:h="http://www.w3.org/1999/xhtml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+
+	<window id="paramForm" onCreate="getData();">
+
+		<zscript language="Java">
+{
+	import java.io.ByteArrayOutputStream;
+	import java.io.File;
+	import java.io.FileInputStream;
+	import java.io.FileOutputStream;
+	import java.io.IOException;
+	import java.sql.Connection;
+	import java.sql.DriverManager;
+	import java.sql.PreparedStatement;
+	import java.sql.ResultSet;
+	import java.sql.Statement;
+	import java.util.Iterator;
+	import java.util.Vector;
+	import org.zkoss.poi.xssf.usermodel.XSSFCell;
+	import org.zkoss.poi.xssf.usermodel.XSSFRow;
+	import org.zkoss.poi.xssf.usermodel.XSSFSheet;
+	import org.zkoss.poi.xssf.usermodel.XSSFWorkbook;
+	import org.zkoss.zk.ui.Components;
+	import org.zkoss.zk.ui.Executions;
+	import org.zkoss.zk.ui.IdSpace;
+	import org.zkoss.zk.ui.UiException;
+	import org.zkoss.zk.ui.WebApps;
+	import org.zkoss.zk.ui.event.Event;
+	import org.zkoss.zk.ui.event.EventListener;
+	
+	import org.zkoss.zul.Filedownload;
+	import org.zkoss.zul.Menu;
+	import org.zkoss.zul.Menuitem;
+	import org.zkoss.zul.Menupopup;
+	import org.zkoss.zul.Messagebox;
+	import javax.servlet.http.HttpServletRequest;
+	import org.zkoss.zk.ui.Executions;
+	import tutorial.MyProperties;
+	
+
+	
+	public void getData(){
+	
+	
+		MyProperties prop=new MyProperties();
+		Class.forName(prop.driver);
+		Connection conn = DriverManager.getConnection(prop.url,prop.username,prop.password);
+		
+		ResultSet rst=null;
+		Statement sql_statement = null;
+		Statement statement = null;
+		
+		File empty_file=new File(prop.empty_file);
+		String getprojectid="select c_order_id,filename from dtpo_pocopfile where boqimport='Y'";
+		sql_statement=conn.createStatement();
+		rst=sql_statement.executeQuery(getprojectid);
+		System.out.println("rst.wasNull()"+rst.wasNull());
+		if(rst.wasNull()==false){
+		rst.next();
+		String activeprj=rst.getString(1);
+		String activefilename=rst.getString(2);
+		System.out.println("Active File name"+activefilename);
+		System.out.println("Purchase ordr id"+activeprj);
+		Executions.getCurrent().setAttribute("activefilename",activefilename);
+		//File output_file = new File(prop.out_file+activefilename);
+		Executions.sendRedirect("/dbconnect.zul?filename="+activefilename);
+	
+		}else{
+		Executions.sendRedirect("/copfile.zul");
+		
+		}
+	}
+	
+	}
+</zscript>
+	</window>
+</zk>
+
